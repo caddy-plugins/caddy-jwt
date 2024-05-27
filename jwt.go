@@ -161,7 +161,7 @@ func (h Auth) ServeHTTP(w http.ResponseWriter, r *http.Request) (int, error) {
 				case DENY:
 					isAuthorized = append(isAuthorized, !ruleMatches)
 				default:
-					return handleUnauthorized(w, r, p, h.Realm), fmt.Errorf("unknown rule type")
+					return handleUnauthorized(w, r, p, h.Realm), errUnknownRuleType
 				}
 			}
 			// test all flags, if any are true then ok to pass
@@ -241,7 +241,7 @@ func ExtractToken(tss []TokenSource, r *http.Request) (string, error) {
 		}
 	}
 
-	return "", fmt.Errorf("no token found")
+	return "", errNoTokenFound
 }
 
 // ValidateToken will return a parsed token if it passes validation, or an
@@ -251,7 +251,7 @@ func ExtractToken(tss []TokenSource, r *http.Request) (string, error) {
 // and tokens that fail signature verification (forged)
 func ValidateToken(uToken string, keyBackend KeyBackend) (*jwt.Token, error) {
 	if len(uToken) == 0 {
-		return nil, fmt.Errorf("Token length is zero")
+		return nil, errTokenLengthIsZero
 	}
 	token, err := jwt.Parse(uToken, keyBackend.ProvideKey)
 
@@ -272,7 +272,7 @@ func handleUnauthorized(w http.ResponseWriter, r *http.Request, rule Rule, realm
 		return http.StatusSeeOther
 	}
 
-	w.Header().Add("WWW-Authenticate", fmt.Sprintf("Bearer realm=\"%s\",error=\"invalid_token\"", realm))
+	w.Header().Add("WWW-Authenticate", fmt.Sprintf(`Bearer realm=%q,error="invalid_token"`, realm))
 	return http.StatusUnauthorized
 }
 
@@ -285,7 +285,7 @@ func handleForbidden(w http.ResponseWriter, r *http.Request, rule Rule, realm st
 		http.Redirect(w, r, replacer.Replace(rule.Redirect), http.StatusSeeOther)
 		return http.StatusSeeOther
 	}
-	w.Header().Add("WWW-Authenticate", fmt.Sprintf("Bearer realm=\"%s\",error=\"insufficient_scope\"", realm))
+	w.Header().Add("WWW-Authenticate", fmt.Sprintf(`Bearer realm=%q,error="insufficient_scope"`, realm))
 	return http.StatusForbidden
 }
 

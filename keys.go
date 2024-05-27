@@ -26,7 +26,7 @@ type LazyPublicKeyBackend struct {
 // NewLazyPublicKeyFileBackend returns a new LazyPublicKeyBackend
 func NewLazyPublicKeyFileBackend(value string) (*LazyPublicKeyBackend, error) {
 	if len(value) <= 0 {
-		return nil, fmt.Errorf("empty filename for public key provided")
+		return nil, errEmptyPublicKeyFilename
 	}
 	return &LazyPublicKeyBackend{
 		filename: value,
@@ -74,7 +74,7 @@ type LazyHmacKeyBackend struct {
 // NewLazyHmacKeyBackend creates a new LazyHmacKeyBackend
 func NewLazyHmacKeyBackend(value string) (*LazyHmacKeyBackend, error) {
 	if len(value) <= 0 {
-		return nil, fmt.Errorf("empty filename for secret provided")
+		return nil, errEmptySecretFilename
 	}
 	return &LazyHmacKeyBackend{
 		filename: value,
@@ -140,7 +140,7 @@ func NewDefaultKeyBackends() ([]KeyBackend, error) {
 		return nil, nil
 	}
 	if len(result) > 1 {
-		return nil, fmt.Errorf("cannot configure both HMAC and RSA/ECDSA tokens on the same site")
+		return nil, errBothHMACRSATokensOnTheSameSite
 	}
 
 	return result, nil
@@ -177,5 +177,5 @@ type NoopKeyBackend struct{}
 
 // ProvideKey always returns an error when no key signing method is specified
 func (instance *NoopKeyBackend) ProvideKey(token *jwt.Token) (interface{}, error) {
-	return nil, fmt.Errorf("there is no keybackend available")
+	return nil, errNoKeybackend
 }
