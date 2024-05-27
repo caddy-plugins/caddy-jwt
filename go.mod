@@ -1,4 +1,4 @@
-module github.com/caddy-plugins/caddy-jwt
+module github.com/caddy-plugins/caddy-jwt/v3
 
 go 1.21
 
