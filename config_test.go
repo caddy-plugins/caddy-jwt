@@ -7,8 +7,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/mholt/caddy"
-	"github.com/mholt/caddy/caddyhttp/httpserver"
+	"github.com/admpub/caddy"
+	"github.com/admpub/caddy/caddyhttp/httpserver"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )

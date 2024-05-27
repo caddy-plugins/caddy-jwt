@@ -1,12 +1,12 @@
 package jwt
 
 import (
+	"os"
 	"crypto/ecdsa"
 	"crypto/rsa"
 	"fmt"
-	"io/ioutil"
 
-	"github.com/dgrijalva/jwt-go"
+	"github.com/golang-jwt/jwt/v4"
 )
 
 func ParsePublicKey(pem []byte) (interface{}, error) {
@@ -21,7 +21,7 @@ func ParsePublicKey(pem []byte) (interface{}, error) {
 }
 
 func ReadPublicKeyFile(filepath string) (interface{}, error) {
-	content, err := ioutil.ReadFile(filepath)
+	content, err := os.ReadFile(filepath)
 	if err != nil {
 		return nil, err
 	}

@@ -11,8 +11,8 @@ import (
 
 	"io/ioutil"
 
-	jwt "github.com/dgrijalva/jwt-go"
-	"github.com/mholt/caddy/caddyhttp/httpserver"
+	"github.com/admpub/caddy/caddyhttp/httpserver"
+	jwt "github.com/golang-jwt/jwt/v4"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )

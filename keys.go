@@ -2,11 +2,10 @@ package jwt
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"time"
 
-	"github.com/dgrijalva/jwt-go"
+	"github.com/golang-jwt/jwt/v4"
 )
 
 const ENV_PUBLIC_KEY = "JWT_PUBLIC_KEY"
@@ -102,7 +101,7 @@ func (instance *LazyHmacKeyBackend) loadIfRequired() error {
 		return fmt.Errorf("secret file '%s' does not exist", instance.filename)
 	}
 	if instance.secret == nil || !finfo.ModTime().Equal(instance.modTime) {
-		instance.secret, err = ioutil.ReadFile(instance.filename)
+		instance.secret, err = os.ReadFile(instance.filename)
 		if err != nil {
 			return fmt.Errorf("could not load secret file '%s': %v", instance.filename, err)
 		}

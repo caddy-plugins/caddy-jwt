@@ -3,8 +3,8 @@ package jwt
 import (
 	"fmt"
 
-	"github.com/mholt/caddy"
-	"github.com/mholt/caddy/caddyhttp/httpserver"
+	"github.com/admpub/caddy"
+	"github.com/admpub/caddy/caddyhttp/httpserver"
 )
 
 // RuleType distinguishes between ALLOW and DENY rules
