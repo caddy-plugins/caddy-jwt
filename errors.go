@@ -10,4 +10,7 @@ var (
 	errEmptySecretFilename            = errors.New(`empty filename for secret provided`)
 	errNoKeybackend                   = errors.New(`there is no keybackend available`)
 	errBothHMACRSATokensOnTheSameSite = errors.New(`cannot configure both HMAC and RSA/ECDSA tokens on the same site`)
+
+	// Nested input must be a map or slice
+	errNotValidInput = errors.New("Not a valid input: map or slice")
 )

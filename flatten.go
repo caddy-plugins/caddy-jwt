@@ -24,10 +24,7 @@
 //	//	"c[f]": "g",
 //	//	"z":    1.4567,
 //	// }
-//
 package jwt
-
-import "errors"
 
 // The presentation style of keys.
 type SeparatorStyle int
@@ -41,9 +38,6 @@ const (
 	// Separate ala Rails, e.g. "a[b][c][1][d]"
 	RailsStyle
 )
-
-// Nested input must be a map or slice
-var NotValidInputError = errors.New("Not a valid input: map or slice")
 
 // Flatten generates a flat map from a nested one.  The original may include values of type map, slice and scalar,
 // but not struct.  Keys in the flat map will be a compound of descending map keys and slice iterations.
@@ -73,14 +67,14 @@ func flatten(top bool, flatMap map[string]interface{}, nested interface{}, prefi
 		return nil
 	}
 
-	switch nested.(type) {
+	switch val := nested.(type) {
 	case map[string]interface{}:
-		for k, v := range nested.(map[string]interface{}) {
+		for k, v := range val {
 			newKey := enkey(top, prefix, k, style)
 			assign(newKey, v)
 		}
 	default:
-		return NotValidInputError
+		return errNotValidInput
 	}
 
 	return nil
