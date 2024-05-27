@@ -194,14 +194,22 @@ func parse(c *caddy.Controller) ([]Rule, error) {
 						r.TokenSources = append(r.TokenSources, &HeaderTokenSource{})
 					case "cookie":
 						if len(args) != 2 {
-							return nil, c.ArgErr()
+							if len(args) == 1 {
+								args = append(args, CookieDefaultName)
+							} else {
+								return nil, c.ArgErr()
+							}
 						}
 						r.TokenSources = append(r.TokenSources, &CookieTokenSource{
 							CookieName: args[1],
 						})
 					case "query_param":
 						if len(args) != 2 {
-							return nil, c.ArgErr()
+							if len(args) == 1 {
+								args = append(args, ParamDefaultName)
+							} else {
+								return nil, c.ArgErr()
+							}
 						}
 						r.TokenSources = append(r.TokenSources, &QueryTokenSource{
 							ParamName: args[1],

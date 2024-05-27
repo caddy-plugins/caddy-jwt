@@ -56,16 +56,21 @@ func (qts *QueryTokenSource) ExtractToken(r *http.Request) string {
 	return ""
 }
 
+const (
+	CookieDefaultName = `jwt_token`
+	ParamDefaultName  = `token`
+)
+
 var (
 	// Default TokenSources to be applied in the given order if the
 	// user did not explicitly configure them via the token_source option
 	DefaultTokenSources = []TokenSource{
 		&HeaderTokenSource{},
 		&CookieTokenSource{
-			CookieName: "jwt_token",
+			CookieName: CookieDefaultName,
 		},
 		&QueryTokenSource{
-			ParamName: "token",
+			ParamName: ParamDefaultName,
 		},
 	}
 )
