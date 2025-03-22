@@ -9,8 +9,6 @@ import (
 	"testing"
 	"time"
 
-	"io/ioutil"
-
 	"github.com/admpub/caddy/caddyhttp/httpserver"
 	jwt "github.com/golang-jwt/jwt/v5"
 	. "github.com/onsi/ginkgo"
@@ -192,7 +190,7 @@ var _ = Describe("Auth", func() {
 
 		It("should find ECDSA key material stored on disk", func() {
 			pemKey, _ := jwt.ParseECPublicKeyFromPEM([]byte(ecdsaPublicKey))
-			keyfile, err := ioutil.TempFile(os.TempDir(), "testkey")
+			keyfile, err := os.CreateTemp(os.TempDir(), "testkey")
 			if err != nil {
 				Fail("Unexpected error creating temporary key file")
 			}
@@ -218,7 +216,7 @@ var _ = Describe("Auth", func() {
 			secret1 := []byte("secret1")
 			secret2 := []byte("secret2")
 
-			keyfile, err := ioutil.TempFile(os.TempDir(), "testkey")
+			keyfile, err := os.CreateTemp(os.TempDir(), "testkey")
 			if err != nil {
 				Fail("Unexpected error creating temporary key file")
 			}
@@ -243,7 +241,7 @@ var _ = Describe("Auth", func() {
 
 			// write new value and invalidate cache after short timeout to allow modinfo time to change
 			time.Sleep(20 * time.Millisecond)
-			if err := ioutil.WriteFile(keyfile.Name(), secret2, os.ModePerm); err != nil {
+			if err := os.WriteFile(keyfile.Name(), secret2, os.ModePerm); err != nil {
 				Fail("Unexpected error overwriting keyfile in cache invalidation test")
 			}
 
@@ -1171,7 +1169,7 @@ var _ = Describe("Auth", func() {
 })
 
 func createKeyFile(key string) (string, error) {
-	f, err := ioutil.TempFile("", "jwt")
+	f, err := os.CreateTemp("", "jwt")
 	if err != nil {
 		return "", err
 	}
