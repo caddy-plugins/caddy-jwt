@@ -151,12 +151,30 @@ var _ = Describe("JWTAuth Config", func() {
 				{`jwt {
 					path /
 					token_source query_param
-				}`, true, nil,
+				}`, false, []Rule{
+					Rule{
+						Path: "/",
+						TokenSources: []TokenSource{
+							&QueryTokenSource{
+								ParamName: ParamDefaultName,
+							},
+						},
+					},
+				},
 				},
 				{`jwt {
 					path /
 					token_source cookie
-				}`, true, nil,
+				}`, false, []Rule{
+					Rule{
+						Path: "/",
+						TokenSources: []TokenSource{
+							&CookieTokenSource{
+								CookieName: CookieDefaultName,
+							},
+						},
+					},
+				},
 				},
 				{`jwt {
 					path /

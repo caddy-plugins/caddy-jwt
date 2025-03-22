@@ -1,12 +1,12 @@
 package jwt
 
 import (
-	"os"
 	"crypto/ecdsa"
 	"crypto/rsa"
 	"fmt"
+	"os"
 
-	"github.com/golang-jwt/jwt/v4"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 func ParsePublicKey(pem []byte) (interface{}, error) {

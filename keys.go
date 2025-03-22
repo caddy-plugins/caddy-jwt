@@ -5,7 +5,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/golang-jwt/jwt/v4"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 const ENV_PUBLIC_KEY = "JWT_PUBLIC_KEY"

@@ -10,7 +10,7 @@ import (
 	"strings"
 
 	"github.com/admpub/caddy/caddyhttp/httpserver"
-	jwt "github.com/golang-jwt/jwt/v4"
+	jwt "github.com/golang-jwt/jwt/v5"
 )
 
 type TokenSource interface {

@@ -12,7 +12,7 @@ import (
 	"io/ioutil"
 
 	"github.com/admpub/caddy/caddyhttp/httpserver"
-	jwt "github.com/golang-jwt/jwt/v4"
+	jwt "github.com/golang-jwt/jwt/v5"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -168,7 +168,7 @@ var _ = Describe("Auth", func() {
 
 		It("should find RSA key material stored on disk", func() {
 			pemKey, _ := jwt.ParseRSAPublicKeyFromPEM([]byte(rsaPublicKey))
-			keyfile, err := ioutil.TempFile(os.TempDir(), "testkey")
+			keyfile, err := os.CreateTemp(os.TempDir(), "testkey")
 			if err != nil {
 				Fail("Unexpected error creating temporary key file")
 			}
