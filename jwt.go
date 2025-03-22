@@ -23,7 +23,7 @@ type TokenSource interface {
 type HeaderTokenSource struct{}
 
 func (*HeaderTokenSource) ExtractToken(r *http.Request) string {
-	jwtHeader := strings.Split(r.Header.Get("Authorization"), " ")
+	jwtHeader := strings.SplitN(r.Header.Get("Authorization"), " ", 2)
 	if jwtHeader[0] == "Bearer" && len(jwtHeader) == 2 {
 		return jwtHeader[1]
 	}
